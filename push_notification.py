@@ -1,28 +1,24 @@
-import random
-import datetime
-import requests
 import json
-from os import environ
-from json import dumps
-from requests import post
-
 import sys
+from os import environ
+import requests
 
 def send_notification(message):
-    token = environ.get('token')
-    if not token:
-        # If the token is not present, stop sending push notification
-        return 'PushPlus: No token configured, cannot send push notification.'
-    url = 'http://www.pushplus.plus/send/'
+    # 改成读取企业微信机器人的 webhook 地址
+    webhook_url = environ.get('WECOM_WEBHOOK')
+    if not webhook_url:
+        return 'WeCom: No webhook configured, cannot send notification.'
 
+    # 企业微信机器人支持的格式：text / markdown
     data = {
-        "token": token,
-        "title": "皎月连签到：" + message, # Set title to be "皎月连签到：" followed by the message
-        "content": message,
+        "msgtype": "text",
+        "text": {
+            "content": "皎月连签到：" + message
+        }
     }
 
     headers = {'Content-Type': 'application/json'}
-    rsp = requests.post(url, data=json.dumps(data), headers=headers)
+    rsp = requests.post(webhook_url, data=json.dumps(data), headers=headers)
     return rsp.text
 
 if __name__ == '__main__':
