@@ -31,11 +31,11 @@ jobs:
       run: pip install requests opencv-python numpy Pillow
 
     - name: Run check-in and push notification script
-      id: checkin_and_notify_step # Renamed ID for clarity
+      id: checkin_and_notify_step
       env:
         NATPIERCE_USERNAME: ${{ secrets.NATPIERCE_USERNAME }} # Pass username to checkin.js
         NATPIERCE_PASSWORD: ${{ secrets.NATPIERCE_PASSWORD }} # Pass password to checkin.js
-        token: ${{ secrets.PUSHPLUS_TOKEN }} # From GitHub Secrets for PushPlus token
+        WECOM_WEBHOOK: ${{ secrets.WECOM_WEBHOOK }} # 企业微信机器人 webhook
       run: |
         # Run checkin.js and capture its output
         CHECKIN_OUTPUT=$(node checkin.js)
