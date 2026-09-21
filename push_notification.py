@@ -4,12 +4,12 @@ from os import environ
 import requests
 
 def send_notification(message):
-    # 改成读取企业微信机器人的 webhook 地址
+    # 读取企业微信机器人的 webhook 地址
     webhook_url = environ.get('WECOM_WEBHOOK')
     if not webhook_url:
         return 'WeCom: No webhook configured, cannot send notification.'
 
-    # 企业微信机器人支持的格式：text / markdown
+    # 企业微信机器人消息格式：text
     data = {
         "msgtype": "text",
         "text": {
